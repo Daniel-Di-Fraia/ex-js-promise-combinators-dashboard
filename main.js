@@ -8,16 +8,17 @@ async function getDashboardData(query) {
         ]);
 
         const dati = {
-            destinazione: datiDestinazione,
-            meteo: datiMeteo,
-            airport: datiAirport
+            city: datiDestinazione[0].name,
+            country: datiDestinazione[0].country,
+            temperature: datiMeteo[0].temperature,
+            weather: datiMeteo[0].weather_description,
+            airport: datiAirport[0].name
         };
 
         return dati;
 
     } catch (error) {
-        console.error("errore nel recupero dei dati", error);
-        throw new Error("errore");
+        throw new Error("errore nel recupero dei dati", error.message);
     }
 }
 
@@ -25,14 +26,10 @@ getDashboardData('london')
     .then(result => {
         console.log(result);
 
-        const destinazione = result.destinazione[0];
-        const meteo = result.meteo[0];
-        const airport = result.airport[0];
-
         console.log(
-            `${destinazione.name} is in ${destinazione.country}.\n` +
-            `Today there are ${meteo.temperature} degrees and the weather is ${meteo.weather_description}.\n` +
-            `The main airport is ${airport.name}.\n`
+            `${result.city} is in ${result.country}.\n` +
+            `Today there are ${result.temperature} degrees and the weather is ${result.weather}.\n` +
+            `The main airport is ${result.airport}.\n`
         )
     })
     .catch(error => console.error(error));
